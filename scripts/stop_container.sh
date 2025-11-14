@@ -1,3 +1,3 @@
 #!/bin/bash
-docker stop simpledeployapp || true
-docker rm simpledeployapp || true
+docker stop new-web-app || true
+docker rm new-web-app || true
