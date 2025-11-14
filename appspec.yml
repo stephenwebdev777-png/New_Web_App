@@ -2,7 +2,7 @@ version: 0.0
 os: linux
 files:
   - source: /
-    destination: /home/ubuntu/SimpleDeployApp
+    destination: /home/ubuntu/New_Web_App
 hooks:
   AfterInstall:
     - location: scripts/stop_container.sh
@@ -12,3 +12,4 @@ hooks:
     - location: scripts/start_container.sh
       timeout: 300
       runas: ubuntu
+
