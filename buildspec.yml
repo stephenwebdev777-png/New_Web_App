@@ -7,8 +7,9 @@ phases:
       - REGION=us-east-1
       - ACCOUNT_ID=390403865161
       - REPOSITORY_NAME=new-web-app-repo
-      - REPOSITORY_URI=$ACCOUNT_ID.dkr.ecr.$REGION.amazonaws.com/$REPOSITORY_NAME
-      - aws ecr get-login-password --region $REGION | docker login --username AWS --password-stdin $ACCOUNT_ID.dkr.ecr.$REGION.amazonaws.com
+      - ECR_URI=$ACCOUNT_ID.dkr.ecr.$REGION.amazonaws.com
+      - REPOSITORY_URI=$ECR_URI/$REPOSITORY_NAME
+      - aws ecr get-login-password --region $REGION | docker login --username AWS --password-stdin $ECR_URI
       - IMAGE_TAG=latest
 
   build:
@@ -20,10 +21,13 @@ phases:
     commands:
       - echo Pushing Docker image to ECR...
       - docker push $REPOSITORY_URI:$IMAGE_TAG
-      - echo Writing imagedefinitions.json...
-      - printf '[{"name":"new-web-app-repo","imageUri":"%s"}]' $REPOSITORY_URI:$IMAGE_TAG > imagedefinitions.json
+      - echo Build completed successfully.
 
 artifacts:
   files:
-    - imagedefinitions.json
+    - appspec.yml
+    - scripts/*
+    - Dockerfile
+    - index1.html
+
 
