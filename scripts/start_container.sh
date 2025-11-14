@@ -1,13 +1,21 @@
 #!/bin/bash
 set -e
 
-# login to ECR
-aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 390403865161.dkr.ecr.us-east-1.amazonaws.com
+REGION="us-east-1"
+ACCOUNT_ID="390403865161"
+REPOSITORY_NAME="new-web-app-repo"
+IMAGE_URI="$ACCOUNT_ID.dkr.ecr.$REGION.amazonaws.com/$REPOSITORY_NAME:latest"
 
-# stop and remove previous container if present
-docker stop simpledeployapp || true
-docker rm simpledeployapp || true
+# Login to ECR
+aws ecr get-login-password --region $REGION | docker login --username AWS --password-stdin $ACCOUNT_ID.dkr.ecr.$REGION.amazonaws.com
 
-# pull latest image and run
-docker pull 390403865161.dkr.ecr.us-east-1.amazonaws.com/simpledeployapp:latest
-docker run -d --name simpledeployapp -p 80:80 390403865161.dkr.ecr.us-east-1.amazonaws.com/simpledeployapp:latest
+# Stop and remove old container
+docker stop new-web-app || true
+docker rm new-web-app || true
+
+# Pull latest image
+docker pull $IMAGE_URI
+
+# Run container
+docker run -d --name new-web-app -p 80:80 $IMAGE_URI
+
