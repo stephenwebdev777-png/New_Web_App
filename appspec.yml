@@ -1,16 +1,19 @@
 version: 0.0
 os: linux
+
 files:
   - source: /
-    destination: /home/ubuntu/New_Web_App
+    destination: /home/ec2-user/New_Web_App
+
 hooks:
   AfterInstall:
     - location: scripts/stop_container.sh
       timeout: 60
-      runas: ubuntu
+      runas: ec2-user
+
   ApplicationStart:
     - location: scripts/start_container.sh
       timeout: 300
-      runas: ubuntu
+      runas: ec2-user
 
 
