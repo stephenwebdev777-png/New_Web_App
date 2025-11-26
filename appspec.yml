@@ -1,6 +1,5 @@
 version: 0.0
 os: linux
-
 files:
   - source: /
     destination: /home/ec2-user/New_Web_App
@@ -15,5 +14,6 @@ hooks:
     - location: scripts/start_container.sh
       timeout: 300
       runas: ec2-user
+
 
 
